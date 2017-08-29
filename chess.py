@@ -28,37 +28,42 @@ class Board():
         self.current_player = current_player
         self.grid = [[0 for _ in range(8)] for _ in range(8)]
         self.lastPosition = [-1,-1]
-
+        self.running = True
+        
         pygame.init()
         pygame.font.init()
         self.board = pygame.display.set_mode(
-        (WIDTH * 8, HEIGHT * 8),
-        pygame.HWSURFACE | pygame.DOUBLEBUF
-        )
+            (WIDTH * 8, HEIGHT * 8),
+            pygame.HWSURFACE | pygame.DOUBLEBUF)
         pygame.display.set_caption('Chess')
 
     def on_event(self,event):
-        #something mouse drag event or click event, change piece in 'a' postion to 'b'
+        if event.type == pygame.QUIT:
+            self.running = False
+        '''
         k = self.grid[a[0]][a[1]]
         self.grid[a[0]][a[1]] = 0
         self.grid[b[0]][b[1]] = k
         self.lastPosition = b
 
-        #check win
+        check win
+        '''
 
     def on_render(self):
         self.render_chess_piece()
         self.render_last_position()
-
         pygame.display.update()
 
     def on_execute(self):
-        while True:
+        while self.running:
             self.chess_board_init()
             for event in pygame.event.get():
                 self.on_event(event)
             self.on_render()
-        self.remove_piece()
+        self.on_cleanup()
+        
+    def on_cleanup(self):
+        pygame.quit()
 
     def chess_board_init(self):
         for row in range(8):
@@ -67,9 +72,6 @@ class Board():
                 if (row % 2 == 0 and column % 2 == 0) or (row % 2 == 1 and column % 2 == 1):
                     color = LIGHT
                 pygame.draw.rect(self.board, color, (WIDTH * column, HEIGHT * row, WIDTH, HEIGHT), 0)
-
-    def remove_piece(self):
-        pass
 
     def render_chess_piece(self):
         for r in range(8):
@@ -80,6 +82,7 @@ class Board():
                     #pic = piece image
                     #piece = pygame.image.load(pic)
                     #self.board.blit(piece,(WIDTH * r, HEIGHT * c))
+
     def render_last_position(self):
         if self.lastPosition[0] > 0 and self.lastPosition[1] > 0:
             pygame.draw.rect(self._display_surf, LAST_POSTION_COLOR,
@@ -126,3 +129,4 @@ class King(Piece):
 
 if __name__ == '__main__':
     board = Board('White')
+    board.on_execute()
