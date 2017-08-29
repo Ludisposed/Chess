@@ -1,4 +1,18 @@
+import itertools
+import pygame
 
+'''
+Class of the Player
+'''
+class Player():
+    def __init__(self, colour, name):
+        self.colour = colour
+        self.name = name
+        self.castle_long = False
+        self.castle_short = False
+
+    def __str__(self):
+        return '{} as {}'.format(self.name, self.colour)
 
 '''
 Class of the board
@@ -8,33 +22,42 @@ class Board():
         self.current_player = current_player
         self.board = board
 
-    def __new__(self):
+    def remove_piece():
         pass
+    
 
 '''
 Class of the chess Pieces
 '''
 class Piece():
-    def __init__(self):
-        pass
+    def __init__(self, name, position, colour):
+        self.name = name
+        self.position = position
+        self.colour = colour
 
-    def move(self):
-        pass
-
+'''
+Classes for individual pieces derived from Piece class
+'''
 class Pawn(Piece):
-    pass
+    def __init__(self, name, position, colour):
+        super().__init__()
 
 class Knight(Piece):
-    pass
+    def __init__(self, name, position, colour):
+        super().__init__()
 
 class Rook(Piece):
-    pass
+    def __init__(self, name, position, colour):
+        super().__init__()
 
 class Bishop(Piece):
-    pass
+    def __init__(self, name, position, colour):
+        super().__init__()
 
 class Queen(Piece):
-    pass
+    def __init__(self, name, position, colour):
+        super().__init__()
 
 class King(Piece):
-    pass
+    def __init__(self, name, position, colour):
+        super().__init__()
