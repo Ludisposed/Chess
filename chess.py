@@ -1,11 +1,12 @@
 import itertools
 import pygame
+
 DARK=(8,118,49)
 LIGHT=(181,221,196)
 WIDTH = 50
-HIGHT = 50
-
+HEIGHT = 50
 LAST_POSTION_COLOR = (0,0,0)
+
 '''
 Class of the Player
 '''
@@ -27,12 +28,11 @@ class Board():
         self.current_player = current_player
         self.grid = [[0 for _ in range(8)] for _ in range(8)]
         self.lastPosition = [-1,-1]
-        #place the pieces into grid
 
         pygame.init()
         pygame.font.init()
         self.board = pygame.display.set_mode(
-        (WIDTH * 8, HIGHT * 8),
+        (WIDTH * 8, HEIGHT * 8),
         pygame.HWSURFACE | pygame.DOUBLEBUF
         )
         pygame.display.set_caption('Chess')
@@ -66,7 +66,7 @@ class Board():
                 color = DARK
                 if (row % 2 == 0 and column % 2 == 0) or (row % 2 == 1 and column % 2 == 1):
                     color = LIGHT
-                pygame.draw.rect(self.board, color, (WIDTH * column, HIGHT * row, WIDTH, HIGHT), 0)
+                pygame.draw.rect(self.board, color, (WIDTH * column, HEIGHT * row, WIDTH, HEIGHT), 0)
 
     def remove_piece(self):
         pass
@@ -75,19 +75,18 @@ class Board():
         for r in range(8):
             for c in range(8):
                 if self.grid[r][c] > 0:
+                    pass
                     #identify which piece it is
                     #pic = piece image
                     #piece = pygame.image.load(pic)
-                    #self.board.blit(piece,(WIDTH * r, HIGHT * c))
+                    #self.board.blit(piece,(WIDTH * r, HEIGHT * c))
     def render_last_position(self):
         if self.lastPosition[0] > 0 and self.lastPosition[1] > 0:
             pygame.draw.rect(self._display_surf, LAST_POSTION_COLOR,
                              (WIDTH * self.lastPosition[0] + WIDTH // 2,
-                              WIDTH) * self.lastPosition[1] + WIDTH // 2,
+                              WIDTH * self.lastPosition[1] + WIDTH // 2,
                               WIDTH,
                               WIDTH), 1)
-
-
 
 '''
 Class of the chess Pieces
@@ -124,3 +123,6 @@ class Queen(Piece):
 class King(Piece):
     def __init__(self, name, position, colour):
         super().__init__()
+
+if __name__ == '__main__':
+    board = Board('White')
