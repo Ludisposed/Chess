@@ -1,5 +1,7 @@
 import pygame
-from chess_pieces import *
+
+from chess_piece import Piece, Pawn, Rook, Bishop, Knight, King, Queen
+
 from player import Player
 DARK=(8,118,49)
 LIGHT=(181,221,196)
@@ -32,26 +34,26 @@ class Board():
         pygame.display.set_caption('Chess')
 
     def grid_init(self):
-        self.grid[0] = [Rook([0,0],'black'),
-                        Knight([0,1],'black'),
-                        Bishop([0,2],'black'),
-                        Queen([0,3],'black'),
-                        King([0,4],'black'),
-                        Bishop([0,5],'black'),
-                        Knight([0,6],'black'),
-                        Rook([0,7],'black')]
+        self.grid[0] = [Rook([0,0],'black',((0,0))),
+                        Knight([0,1],'black',((0,0))),
+                        Bishop([0,2],'black',((0,0))),
+                        Queen([0,3],'black',((0,0))),
+                        King([0,4],'black',((0,0))),
+                        Bishop([0,5],'black',((0,0))),
+                        Knight([0,6],'black',((0,0))),
+                        Rook([0,7],'black',((0,0)))]
 
-        self.grid[-1] = [Rook([7,0],'white'),
-                         Knight([7,1],'white'),
-                         Bishop([7,2],'white'),
-                         Queen([7,3],'white'),
-                         King([7,4],'white'),
-                         Bishop([7,5],'white'),
-                         Knight([7,6],'white'),
-                         Rook([7,7],'white')]
+        self.grid[-1] = [Rook([7,0],'white',((0,0))),
+                         Knight([7,1],'white',((0,0))),
+                         Bishop([7,2],'white',((0,0))),
+                         Queen([7,3],'white',((0,0))),
+                         King([7,4],'white',((0,0))),
+                         Bishop([7,5],'white',((0,0))),
+                         Knight([7,6],'white',((0,0))),
+                         Rook([7,7],'white',((0,0)))]
 
-        self.grid[1] = [Pawn([1, i], 'black') for i in range(8)]
-        self.grid[-2] = [Pawn([6, i], 'white') for i in range(8)]
+        self.grid[1] = [Pawn([1, i], 'black',((0,0))) for i in range(8)]
+        self.grid[-2] = [Pawn([6, i], 'white',((0,0))) for i in range(8)]
 
     def on_event(self,event):
         if event.type == pygame.QUIT:

@@ -1,10 +1,11 @@
-from piece import Piece
+from chess_piece.piece import Piece
 
 class Knight(Piece):
-    def __init__(self, position, colour):
+    def __init__(self, position, colour, direction):
+        super().__init__(position, colour, direction)
         self.name = colour + '_knight'
         self.directions = ()
-        Piece().__init__(self, position, colour, direction)
+
 
     # wierd movements
     def available_moves(self):
