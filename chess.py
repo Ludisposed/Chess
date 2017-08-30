@@ -6,6 +6,7 @@ LIGHT=(181,221,196)
 WIDTH = 50
 HEIGHT = 50
 LAST_POSTION_COLOUR = (0,0,0)
+AVAILABLE_MOVE_COLOUR = (0,0,0)
 
 '''
 Class of the Player
@@ -33,6 +34,7 @@ class Board():
         self.dragging = False
         self.dragging_piece = None
         self.dragging_place = [-1,-1]
+        self.available_moves = []
 
         pygame.init()
         pygame.font.init()
@@ -40,6 +42,7 @@ class Board():
             (WIDTH * 8, HEIGHT * 8),
             pygame.HWSURFACE | pygame.DOUBLEBUF)
         pygame.display.set_caption('Chess')
+
     def grid_init(self):
         self.grid[0] = [Rook([0,0],'black'),
                         Knight([0,1],'black'),
@@ -59,8 +62,8 @@ class Board():
                          Knight([7,6],'white'),
                          Rook([7,7],'white')]
 
-        self.grid[1] = [Pawn([1,i],'black') for i in range(8)]
-        self.grid[-2] = [Pawn([6,i],'white') for i in range(8)]
+        self.grid[1] = [Pawn([1, i], 'black') for i in range(8)]
+        self.grid[-2] = [Pawn([6, i], 'white') for i in range(8)]
 
     def on_event(self,event):
         if event.type == pygame.QUIT:
@@ -75,39 +78,43 @@ class Board():
                 self.dragging_piece = self.grid[r][c]
                 self.dragging_place = pos
                 self.grid[r][c] = None
-                # show available_moves for piece
+                self.available_moves = self.dragging_piece.available_moves()
+
 
         elif event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
             c = pos[0] // HEIGHT
             r = pos[1] // WIDTH
             if self.dragging:
-                if self.grid[r][c] is not None:
-                    p = self.grid[r][c]
-                    if p.colour == self.dragging_piece.colour:
-                        pos = self.dragging_piece.position
-                        self.grid[pos[0]][pos[1]] = self.dragging_piece
-                    else:
-                        #identify if the dragging win
-                        if False:
-                            pass
-                        else:
+                if [r,c] in self.available_moves:
+                    if self.grid[r][c] is not None:
+                        p = self.grid[r][c]
+                        if p.colour == self.dragging_piece.colour:
                             pos = self.dragging_piece.position
                             self.grid[pos[0]][pos[1]] = self.dragging_piece
+                        else:
+                            #identify if the dragging win
+                            if False:
+                                pass
+                            else:
+                                pos = self.dragging_piece.position
+                                self.grid[pos[0]][pos[1]] = self.dragging_piece
 
+                    else:
+                        self.dragging_piece.position = [r,c]
+                        self.grid[r][c] = self.dragging_piece
                 else:
-                    self.dragging_piece.position = [r,c]
-                    self.grid[r][c] = self.dragging_piece
-
+                    pos = self.dragging_piece.position
+                    self.grid[pos[0]][pos[1]] = self.dragging_piece
 
             self.dragging = False
             self.dragging_piece = None
             self.dragging_place = [-1,-1]
+            self.available_moves = []
 
         elif event.type == pygame.MOUSEMOTION:
             pos = pygame.mouse.get_pos()
             if self.dragging:
-                # check is it in availabel moves
                 self.dragging_place = pos
 
         #check win
@@ -141,7 +148,16 @@ class Board():
 
 
     def render_available_moves(self):
-        pass
+        if len(self.available_moves) > 0:
+            moves = []
+            for m in self.available_moves:
+                if self.grid[m[0]][m[1]] is None:
+                    moves.append(m)
+            for m in moves:
+                center = [m[1] * WIDTH + WIDTH // 2, m[0] * HEIGHT + HEIGHT // 2]
+                radius = 10
+                pygame.draw.circle(self.board, AVAILABLE_MOVE_COLOUR, center, radius, 0)
+
     def render_dragging_piece(self):
         if self.dragging:
             piece = pygame.image.load('Images/' + self.dragging_piece.name + '.png')
@@ -167,57 +183,82 @@ class Board():
 Class of the chess Pieces
 '''
 class Piece(object):
-    def __init__(self, position, colour):
+    def __init__(self, position, colour, direction):
         self.name = ''
         self.position = position
         self.colour = colour
-    def available_moves(self):
-        pass
+        self.direction = direction
+
+    def available_moves(self, directions):
+        valid_moves = []
+
+        for d in directions:
+            pos = self.position
+            while 0 >= pos[0] <= 7 and 0 >= pos[0] <= 7 and pos != self.position:
+                valid_moves.append(pos)
+                pos[0] += d[0]
+                pos[1] += d[1]
+
+        return valid_moves
 
 '''
 Classes for individual pieces derived from Piece class
 '''
 class Pawn(Piece):
     def __init__(self, position, colour):
-        Piece.__init__(self, position, colour)
+        self.directions = ()
         self.name = colour + '_pawn'
+        Piece().__init__(self, position, colour, direction)
+
+    # wierd movements
     def available_moves(self):
         pass
 
 class Knight(Piece):
     def __init__(self, position, colour):
-        Piece.__init__(self, position, colour)
         self.name = colour + '_knight'
+        self.directions = ()
+        Piece().__init__(self, position, colour, direction)
+
+    # wierd movements
     def available_moves(self):
         pass
 
 class Rook(Piece):
     def __init__(self, position, colour):
-        Piece.__init__(self, position, colour)
         self.name = colour + '_rook'
+        self.directions = ((0, 1), (1, 0), (-1, 0), (0, -1))
+        Piece().__init__(self, position, colour, direction)
+
     def available_moves(self):
-        pass
+        super().available_moves(self.directions)
 
 class Bishop(Piece):
     def __init__(self, position, colour):
-        Piece.__init__(self, position, colour)
         self.name = colour + '_bishop'
+        self.directions = ((-1, -1), (1, 1), (-1, 1), (1, -1))
+        Piece().__init__(self, position, colour, direction)
+
     def available_moves(self):
-        pass
+        super().available_moves(self.directions)
 
 class Queen(Piece):
     def __init__(self, position, colour):
-        Piece.__init__(self, position, colour)
         self.name = colour + '_queen'
+        self.directions = ((0, 1), (1, 0), (-1, 0), (0, -1), (-1, -1), (1, 1), (-1, 1), (1, -1))
+        Piece().__init__(self, position, colour, direction)
+
     def available_moves(self):
-        pass
+        super().available_moves(self.directions)
 
 class King(Piece):
     def __init__(self, position, colour):
-        Piece.__init__(self, position, colour)
         self.name = colour + '_king'
+        self.directions = ((0, 1), (1, 0), (-1, 0), (0, -1), (-1, -1), (1, 1), (-1, 1), (1, -1))
+        Piece().__init__(self, position, colour, direction)
+
     def available_moves(self):
-        pass
+        super().available_moves(self.directions)
 
 if __name__ == '__main__':
     board = Board('White')
