@@ -22,8 +22,6 @@ class Board():
             pygame.HWSURFACE | pygame.DOUBLEBUF)
         pygame.display.set_caption('Chess')
 
-
-
     def on_event(self,event):
         if event.type == pygame.QUIT:
             self.running = False
@@ -62,6 +60,7 @@ class Board():
 
     def on_cleanup(self):
         pygame.quit()
+        
     def init_chess_board(self):
         for row in range(8):
             for column in range(8):
@@ -75,6 +74,7 @@ class Board():
         for m in self.game.available_moves():
             center = [m[1] * WIDTH + WIDTH // 2, m[0] * HEIGHT + HEIGHT // 2]
             BoardView.render_available_moves(self.board, center)
+            
     def render_dragging_piece(self):
         p = self.game.dragging_piece()
         if p is not None:

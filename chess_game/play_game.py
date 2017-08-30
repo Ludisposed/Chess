@@ -19,12 +19,15 @@ class PlayGame(object):
             self.__available_moves = []
             moves = self.__dragging_piece.available_moves()
 
+            print moves
             for m in moves:
                 if self.__pieces[m[0]][m[1]] is None:
                     self.__available_moves.append(m)
+          
     def place_dragging_piece_in_position(self, position):
         if position in self.__available_moves:
             p = self.__pieces[position[0]][position[1]]
+
             if p is None:
                 self.__pieces[position[0]][position[1]] = self.__dragging_piece
             else:
