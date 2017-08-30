@@ -42,11 +42,7 @@ class Board():
             (WIDTH * 8, HEIGHT * 8),
             pygame.HWSURFACE | pygame.DOUBLEBUF)
         pygame.display.set_caption('Chess')
-<<<<<<< HEAD
 
-=======
-        
->>>>>>> be5a8942fa86b5f5e2bc149ab886ca02cb4152b6
     def grid_init(self):
         self.grid[0] = [Rook([0,0],'black'),
                         Knight([0,1],'black'),
@@ -72,7 +68,6 @@ class Board():
     def on_event(self,event):
         if event.type == pygame.QUIT:
             self.running = False
-            
         elif event.type == pygame.MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
             c = pos[0] // HEIGHT
@@ -83,23 +78,8 @@ class Board():
                 self.dragging_piece = self.grid[r][c]
                 self.dragging_place = pos
                 self.grid[r][c] = None
-<<<<<<< HEAD
                 self.available_moves = self.dragging_piece.available_moves()
 
-=======
-
-                print self.dragging_piece.available_moves()
-
-                if not self.dragging_piece.available_moves() is None:
-                    for pos in self.dragging_piece.available_moves():
-                        if not self.grid[pos[0]][pos[1]] is None:
-                            pass
-                            # Is available
-                            # Render available move
-                        else:
-                            # Skip till next direction
-                            pass
->>>>>>> be5a8942fa86b5f5e2bc149ab886ca02cb4152b6
 
         elif event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
@@ -124,13 +104,8 @@ class Board():
                         self.dragging_piece.position = [r,c]
                         self.grid[r][c] = self.dragging_piece
                 else:
-<<<<<<< HEAD
                     pos = self.dragging_piece.position
                     self.grid[pos[0]][pos[1]] = self.dragging_piece
-=======
-                    self.dragging_piece.position = [r,c]
-                    self.grid[r][c] = self.dragging_piece
->>>>>>> be5a8942fa86b5f5e2bc149ab886ca02cb4152b6
 
             self.dragging = False
             self.dragging_piece = None
@@ -143,6 +118,7 @@ class Board():
                 self.dragging_place = pos
 
         #check win
+
 
     def on_render(self):
         self.render_chess_piece()
@@ -172,7 +148,6 @@ class Board():
 
 
     def render_available_moves(self):
-<<<<<<< HEAD
         if len(self.available_moves) > 0:
             moves = []
             for m in self.available_moves:
@@ -183,10 +158,6 @@ class Board():
                 radius = 10
                 pygame.draw.circle(self.board, AVAILABLE_MOVE_COLOUR, center, radius, 0)
 
-=======
-        pass
-    
->>>>>>> be5a8942fa86b5f5e2bc149ab886ca02cb4152b6
     def render_dragging_piece(self):
         if self.dragging:
             piece = pygame.image.load('Images/' + self.dragging_piece.name + '.png')
@@ -217,17 +188,10 @@ class Piece(object):
         self.position = position
         self.colour = colour
         self.direction = direction
-<<<<<<< HEAD
 
     def available_moves(self, directions):
         valid_moves = []
 
-=======
-        
-    def available_moves(self, directions):
-        valid_moves = []
-        
->>>>>>> be5a8942fa86b5f5e2bc149ab886ca02cb4152b6
         for d in directions:
             pos = self.position
             while 0 >= pos[0] <= 7 and 0 >= pos[0] <= 7 and pos != self.position:
@@ -243,11 +207,7 @@ Classes for individual pieces derived from Piece class
 class Pawn(Piece):
     def __init__(self, position, colour):
         self.directions = ()
-<<<<<<< HEAD
         self.name = colour + '_pawn'
-=======
-        self.name = colour + '_pawn' 
->>>>>>> be5a8942fa86b5f5e2bc149ab886ca02cb4152b6
         Piece().__init__(self, position, colour, direction)
 
     # wierd movements
@@ -257,11 +217,7 @@ class Pawn(Piece):
 class Knight(Piece):
     def __init__(self, position, colour):
         self.name = colour + '_knight'
-<<<<<<< HEAD
         self.directions = ()
-=======
-        self.directions = () 
->>>>>>> be5a8942fa86b5f5e2bc149ab886ca02cb4152b6
         Piece().__init__(self, position, colour, direction)
 
     # wierd movements
@@ -271,45 +227,27 @@ class Knight(Piece):
 class Rook(Piece):
     def __init__(self, position, colour):
         self.name = colour + '_rook'
-<<<<<<< HEAD
         self.directions = ((0, 1), (1, 0), (-1, 0), (0, -1))
         Piece().__init__(self, position, colour, direction)
 
-=======
-        self.directions = ((0, 1), (1, 0), (-1, 0), (0, -1)) 
-        Piece().__init__(self, position, colour, direction)
-        
->>>>>>> be5a8942fa86b5f5e2bc149ab886ca02cb4152b6
     def available_moves(self):
         super().available_moves(self.directions)
 
 class Bishop(Piece):
     def __init__(self, position, colour):
         self.name = colour + '_bishop'
-<<<<<<< HEAD
         self.directions = ((-1, -1), (1, 1), (-1, 1), (1, -1))
         Piece().__init__(self, position, colour, direction)
 
-=======
-        self.directions = ((-1, -1), (1, 1), (-1, 1), (1, -1)) 
-        Piece().__init__(self, position, colour, direction)
-        
->>>>>>> be5a8942fa86b5f5e2bc149ab886ca02cb4152b6
     def available_moves(self):
         super().available_moves(self.directions)
 
 class Queen(Piece):
     def __init__(self, position, colour):
         self.name = colour + '_queen'
-<<<<<<< HEAD
         self.directions = ((0, 1), (1, 0), (-1, 0), (0, -1), (-1, -1), (1, 1), (-1, 1), (1, -1))
         Piece().__init__(self, position, colour, direction)
 
-=======
-        self.directions = ((0, 1), (1, 0), (-1, 0), (0, -1), (-1, -1), (1, 1), (-1, 1), (1, -1)) 
-        Piece().__init__(self, position, colour, direction)
-        
->>>>>>> be5a8942fa86b5f5e2bc149ab886ca02cb4152b6
     def available_moves(self):
         super().available_moves(self.directions)
 
@@ -317,13 +255,8 @@ class King(Piece):
     def __init__(self, position, colour):
         self.name = colour + '_king'
         self.directions = ((0, 1), (1, 0), (-1, 0), (0, -1), (-1, -1), (1, 1), (-1, 1), (1, -1))
-<<<<<<< HEAD
         Piece().__init__(self, position, colour, direction)
 
-=======
-        Piece().__init__(self, position, colour, direction) 
-        
->>>>>>> be5a8942fa86b5f5e2bc149ab886ca02cb4152b6
     def available_moves(self):
         super().available_moves(self.directions)
 
