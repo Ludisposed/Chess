@@ -1,10 +1,10 @@
 from chess_piece.piece import Piece
 
 class Bishop(Piece):
-    def __init__(self, position, colour, direction):
-        super().__init__(position, colour, direction)
+    def __init__(self, position, colour):
         self.name = colour + '_bishop'
-        self.directions = ((-1, -1), (1, 1), (-1, 1), (1, -1))
+        self.direction = ((-1, -1), (1, 1), (-1, 1), (1, -1))
+        super(Bishop, self).__init__(position, colour, self.direction)
 
 
     def available_moves(self):

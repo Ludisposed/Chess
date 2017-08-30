@@ -1,10 +1,10 @@
 from chess_piece.piece import Piece
 
 class Rook(Piece):
-    def __init__(self, position, colour, direction):
-        super().__init__(position, colour, direction)
+    def __init__(self, position, colour):
         self.name = colour + '_rook'
-        self.directions = ((0, 1), (1, 0), (-1, 0), (0, -1))
+        self.direction = ((0, 1), (1, 0), (-1, 0), (0, -1))
+        super(Rook, self).__init__(position, colour, self.direction)
 
 
     def available_moves(self):
