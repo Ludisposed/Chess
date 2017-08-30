@@ -40,6 +40,7 @@ class Board():
             (WIDTH * 8, HEIGHT * 8),
             pygame.HWSURFACE | pygame.DOUBLEBUF)
         pygame.display.set_caption('Chess')
+        
     def grid_init(self):
         self.grid[0] = [Rook([0,0],'black'),
                         Knight([0,1],'black'),
@@ -59,12 +60,13 @@ class Board():
                          Knight([7,6],'white'),
                          Rook([7,7],'white')]
 
-        self.grid[1] = [Pawn([1,i],'black') for i in range(8)]
-        self.grid[-2] = [Pawn([6,i],'white') for i in range(8)]
+        self.grid[1] = [Pawn([1, i], 'black') for i in range(8)]
+        self.grid[-2] = [Pawn([6, i], 'white') for i in range(8)]
 
     def on_event(self,event):
         if event.type == pygame.QUIT:
             self.running = False
+            
         elif event.type == pygame.MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
             c = pos[0] // HEIGHT
@@ -99,7 +101,6 @@ class Board():
                     self.dragging_piece.position = [r,c]
                     self.grid[r][c] = self.dragging_piece
 
-
             self.dragging = False
             self.dragging_piece = None
             self.dragging_place = [-1,-1]
@@ -111,7 +112,6 @@ class Board():
                 self.dragging_place = pos
 
         #check win
-
 
     def on_render(self):
         self.render_chess_piece()
@@ -142,6 +142,7 @@ class Board():
 
     def render_available_moves(self):
         pass
+    
     def render_dragging_piece(self):
         if self.dragging:
             piece = pygame.image.load('Images/' + self.dragging_piece.name + '.png')
@@ -171,8 +172,18 @@ class Piece(object):
         self.name = ''
         self.position = position
         self.colour = colour
-    def available_moves(self):
-        pass
+        
+    def available_moves(self, directions):
+        valid_moves = []
+        
+        for d in directions:
+            pos = self.position
+            while 0 >= pos[0] <= 7 and 0 >= pos[0] <= 7 and pos != self.position:
+                if not Board(pos) is None:
+                    valid_moves.append(pos)
+                    pos += d
+
+        return valid_moves
 
 '''
 Classes for individual pieces derived from Piece class
@@ -181,6 +192,9 @@ class Pawn(Piece):
     def __init__(self, position, colour):
         Piece.__init__(self, position, colour)
         self.name = colour + '_pawn'
+        self.directions = () 
+
+    # wierd movements
     def available_moves(self):
         pass
 
@@ -188,6 +202,9 @@ class Knight(Piece):
     def __init__(self, position, colour):
         Piece.__init__(self, position, colour)
         self.name = colour + '_knight'
+        self.directions = () 
+
+    # wierd movements
     def available_moves(self):
         pass
 
@@ -195,29 +212,38 @@ class Rook(Piece):
     def __init__(self, position, colour):
         Piece.__init__(self, position, colour)
         self.name = colour + '_rook'
+        self.directions = ((0, 1), (1, 0), (-1, 0), (0, -1)) 
+        
     def available_moves(self):
-        pass
+        super().available_moves(self.directions)
 
 class Bishop(Piece):
     def __init__(self, position, colour):
         Piece.__init__(self, position, colour)
         self.name = colour + '_bishop'
+        self.directions = ((-1, -1), (1, 1), (-1, 1), (1, -1)) 
+        
     def available_moves(self):
-        pass
+        super().available_moves(self.directions)
 
 class Queen(Piece):
     def __init__(self, position, colour):
         Piece.__init__(self, position, colour)
         self.name = colour + '_queen'
+        self.directions = ()
+        self.directions = ((0, 1), (1, 0), (-1, 0), (0, -1), (-1, -1), (1, 1), (-1, 1), (1, -1)) 
+        
     def available_moves(self):
-        pass
+        super().available_moves(self.directions)
 
 class King(Piece):
     def __init__(self, position, colour):
         Piece.__init__(self, position, colour)
         self.name = colour + '_king'
+        self.directions = ((0, 1), (1, 0), (-1, 0), (0, -1), (-1, -1), (1, 1), (-1, 1), (1, -1)) 
+        
     def available_moves(self):
-        pass
+        super().available_moves(self.directions)
 
 if __name__ == '__main__':
     board = Board('White')
