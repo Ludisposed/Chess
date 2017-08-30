@@ -77,7 +77,18 @@ class Board():
                 self.dragging_piece = self.grid[r][c]
                 self.dragging_place = pos
                 self.grid[r][c] = None
-                # show available_moves for piece
+
+                print self.dragging_piece.available_moves()
+
+                if not self.dragging_piece.available_moves() is None:
+                    for pos in self.dragging_piece.available_moves():
+                        if not self.grid[pos[0]][pos[1]] is None:
+                            pass
+                            # Is available
+                            # Render available move
+                        else:
+                            # Skip till next direction
+                            pass
 
         elif event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
@@ -168,10 +179,11 @@ class Board():
 Class of the chess Pieces
 '''
 class Piece(object):
-    def __init__(self, position, colour):
+    def __init__(self, position, colour, direction):
         self.name = ''
         self.position = position
         self.colour = colour
+        self.direction = direction
         
     def available_moves(self, directions):
         valid_moves = []
@@ -179,9 +191,9 @@ class Piece(object):
         for d in directions:
             pos = self.position
             while 0 >= pos[0] <= 7 and 0 >= pos[0] <= 7 and pos != self.position:
-                if not Board(pos) is None:
-                    valid_moves.append(pos)
-                    pos += d
+                valid_moves.append(pos)
+                pos[0] += d[0]
+                pos[1] += d[1]
 
         return valid_moves
 
@@ -190,9 +202,9 @@ Classes for individual pieces derived from Piece class
 '''
 class Pawn(Piece):
     def __init__(self, position, colour):
-        Piece.__init__(self, position, colour)
-        self.name = colour + '_pawn'
-        self.directions = () 
+        self.directions = ()
+        self.name = colour + '_pawn' 
+        Piece().__init__(self, position, colour, direction)
 
     # wierd movements
     def available_moves(self):
@@ -200,9 +212,9 @@ class Pawn(Piece):
 
 class Knight(Piece):
     def __init__(self, position, colour):
-        Piece.__init__(self, position, colour)
         self.name = colour + '_knight'
         self.directions = () 
+        Piece().__init__(self, position, colour, direction)
 
     # wierd movements
     def available_moves(self):
@@ -210,37 +222,36 @@ class Knight(Piece):
 
 class Rook(Piece):
     def __init__(self, position, colour):
-        Piece.__init__(self, position, colour)
         self.name = colour + '_rook'
         self.directions = ((0, 1), (1, 0), (-1, 0), (0, -1)) 
+        Piece().__init__(self, position, colour, direction)
         
     def available_moves(self):
         super().available_moves(self.directions)
 
 class Bishop(Piece):
     def __init__(self, position, colour):
-        Piece.__init__(self, position, colour)
         self.name = colour + '_bishop'
         self.directions = ((-1, -1), (1, 1), (-1, 1), (1, -1)) 
+        Piece().__init__(self, position, colour, direction)
         
     def available_moves(self):
         super().available_moves(self.directions)
 
 class Queen(Piece):
     def __init__(self, position, colour):
-        Piece.__init__(self, position, colour)
         self.name = colour + '_queen'
-        self.directions = ()
         self.directions = ((0, 1), (1, 0), (-1, 0), (0, -1), (-1, -1), (1, 1), (-1, 1), (1, -1)) 
+        Piece().__init__(self, position, colour, direction)
         
     def available_moves(self):
         super().available_moves(self.directions)
 
 class King(Piece):
     def __init__(self, position, colour):
-        Piece.__init__(self, position, colour)
         self.name = colour + '_king'
-        self.directions = ((0, 1), (1, 0), (-1, 0), (0, -1), (-1, -1), (1, 1), (-1, 1), (1, -1)) 
+        self.directions = ((0, 1), (1, 0), (-1, 0), (0, -1), (-1, -1), (1, 1), (-1, 1), (1, -1))
+        Piece().__init__(self, position, colour, direction) 
         
     def available_moves(self):
         super().available_moves(self.directions)
