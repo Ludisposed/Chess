@@ -54,24 +54,28 @@ class Board():
             pos = pygame.mouse.get_pos()
             c = pos[0] // HEIGHT
             r = pos[1] // WIDTH
-            print(pos,r,c,self.grid[r][c])
             if len(self.grid[r][c])>0:
                 self.dragging = True
                 self.dragging_piece = self.grid[r][c]
                 self.dragging_place = pos
                 self.grid[r][c] = ''
-                self.last_position_before_drag = pos
+                self.last_position_before_drag = [r,c]
         elif event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
             c = pos[0] // HEIGHT
             r = pos[1] // WIDTH
             if self.dragging:
                 if len(self.grid[r][c]) > 0:
+
                     if self.grid[r][c].split('_')[0] == self.dragging_piece.split('_')[0]:
                         self.grid[self.last_position_before_drag[0]][self.last_position_before_drag[1]] = self.dragging_piece
                     else:
-                        pass
                         #identify if the dragging win
+                        if False:
+                            pass
+                        else:
+                            self.grid[self.last_position_before_drag[0]][self.last_position_before_drag[1]] = self.dragging_piece
+
                 else:
                     self.grid[r][c] = self.dragging_piece
 
