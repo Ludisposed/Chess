@@ -1,15 +1,15 @@
 
 class Piece(object):
-    def __init__(self, position, colour, direction, name):
-        self.name = name
+    def __init__(self, position, colour):
+        self.name = ""
         self.position = position
         self.colour = colour
-        self.direction = direction
 
-    def available_moves(self):
+
+    def available_moves(self, direction):
         valid_moves = []
 
-        for d in self.direction:
+        for d in direction:
             pos = self.position
             while 0 >= pos[0] <= 7 and 0 >= pos[0] <= 7 and pos != self.position:
                 valid_moves.append(pos)

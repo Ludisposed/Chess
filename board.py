@@ -10,6 +10,9 @@ HEIGHT = 50
 LAST_POSTION_COLOUR = (0,0,0)
 AVAILABLE_MOVE_COLOUR = (0,0,0)
 
+BLACK = "black"
+WHITE = "white"
+
 '''
 Class of the board
 '''
@@ -33,9 +36,9 @@ class Board():
         pygame.display.set_caption('Chess')
 
     def grid_init(self):
-        self.grid[0] = [Rook([0,0],'black'),
-                        Knight([0,1],'black'),
-                        Bishop([0,2],'black'),
+        self.grid[0] = [Rook([0,0],BLACK),
+                        Knight([0,1],BLACK),
+                        Bishop([0,2],BLACK),
                         Queen([0,3],'black'),
                         King([0,4],'black'),
                         Bishop([0,5],'black'),
@@ -87,12 +90,12 @@ class Board():
                             pos = self.dragging_piece.position
                             self.grid[pos[0]][pos[1]] = self.dragging_piece
 
-                    else:
-                        self.dragging_piece.position = [r,c]
-                        self.grid[r][c] = self.dragging_piece
                 else:
-                    pos = self.dragging_piece.position
-                    self.grid[pos[0]][pos[1]] = self.dragging_piece
+                    self.dragging_piece.position = [r,c]
+                    self.grid[r][c] = self.dragging_piece
+            else:
+                pos = self.dragging_piece.position
+                self.grid[pos[0]][pos[1]] = self.dragging_piece
 
             self.dragging = False
             self.dragging_piece = None
