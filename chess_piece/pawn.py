@@ -10,4 +10,5 @@ class Pawn(Piece):
 
     # wierd movements
     def available_moves(self):
-        pass
+        #for test in black
+        return [[self.position[0] + 1,self.position[1]], [self.position[0] + 2,self.position[1]]]

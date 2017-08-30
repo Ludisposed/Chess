@@ -9,4 +9,5 @@ class King(Piece):
 
 
     def available_moves(self):
-        super().available_moves(self.directions)
+        direction = self.direction
+        return super().available_moves(direction)
