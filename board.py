@@ -1,6 +1,6 @@
-import itertools
 import pygame
-
+from chess_pieces import *
+from player import Player
 DARK=(8,118,49)
 LIGHT=(181,221,196)
 WIDTH = 50
@@ -8,18 +8,6 @@ HEIGHT = 50
 LAST_POSTION_COLOUR = (0,0,0)
 AVAILABLE_MOVE_COLOUR = (0,0,0)
 
-'''
-Class of the Player
-'''
-class Player():
-    def __init__(self, colour, name):
-        self.colour = colour
-        self.name = name
-        self.castle_long = False
-        self.castle_short = False
-
-    def __str__(self):
-        return '{} as {}'.format(self.name, self.colour)
 
 '''
 Class of the board
@@ -178,88 +166,3 @@ class Board():
                               WIDTH * self.lastPosition[1] + WIDTH // 2,
                               WIDTH,
                               WIDTH), 1)
-
-'''
-Class of the chess Pieces
-'''
-class Piece(object):
-    def __init__(self, position, colour, direction):
-        self.name = ''
-        self.position = position
-        self.colour = colour
-        self.direction = direction
-
-    def available_moves(self, directions):
-        valid_moves = []
-
-        for d in directions:
-            pos = self.position
-            while 0 >= pos[0] <= 7 and 0 >= pos[0] <= 7 and pos != self.position:
-                valid_moves.append(pos)
-                pos[0] += d[0]
-                pos[1] += d[1]
-
-        return valid_moves
-
-'''
-Classes for individual pieces derived from Piece class
-'''
-class Pawn(Piece):
-    def __init__(self, position, colour):
-        self.directions = ()
-        self.name = colour + '_pawn'
-        Piece().__init__(self, position, colour, direction)
-
-    # wierd movements
-    def available_moves(self):
-        pass
-
-class Knight(Piece):
-    def __init__(self, position, colour):
-        self.name = colour + '_knight'
-        self.directions = ()
-        Piece().__init__(self, position, colour, direction)
-
-    # wierd movements
-    def available_moves(self):
-        pass
-
-class Rook(Piece):
-    def __init__(self, position, colour):
-        self.name = colour + '_rook'
-        self.directions = ((0, 1), (1, 0), (-1, 0), (0, -1))
-        Piece().__init__(self, position, colour, direction)
-
-    def available_moves(self):
-        super().available_moves(self.directions)
-
-class Bishop(Piece):
-    def __init__(self, position, colour):
-        self.name = colour + '_bishop'
-        self.directions = ((-1, -1), (1, 1), (-1, 1), (1, -1))
-        Piece().__init__(self, position, colour, direction)
-
-    def available_moves(self):
-        super().available_moves(self.directions)
-
-class Queen(Piece):
-    def __init__(self, position, colour):
-        self.name = colour + '_queen'
-        self.directions = ((0, 1), (1, 0), (-1, 0), (0, -1), (-1, -1), (1, 1), (-1, 1), (1, -1))
-        Piece().__init__(self, position, colour, direction)
-
-    def available_moves(self):
-        super().available_moves(self.directions)
-
-class King(Piece):
-    def __init__(self, position, colour):
-        self.name = colour + '_king'
-        self.directions = ((0, 1), (1, 0), (-1, 0), (0, -1), (-1, -1), (1, 1), (-1, 1), (1, -1))
-        Piece().__init__(self, position, colour, direction)
-
-    def available_moves(self):
-        super().available_moves(self.directions)
-
-if __name__ == '__main__':
-    board = Board('White')
-    board.on_execute()
