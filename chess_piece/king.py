@@ -4,7 +4,7 @@ class King(Piece):
     def __init__(self, position, colour):
         self.name = colour + '_king'
         self.direction = ((0, 1), (1, 0), (-1, 0), (0, -1), (-1, -1), (1, 1), (-1, 1), (1, -1))
-        super(King, self).__init__(position, colour, self.direction)
+        super(King, self).__init__(position, colour, self.direction, self.name)
 
 
     def available_moves(self):

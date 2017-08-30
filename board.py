@@ -69,25 +69,23 @@ class Board():
                 self.grid[r][c] = None
                 self.available_moves = self.dragging_piece.available_moves()
 
-
         elif event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
             c = pos[0] // HEIGHT
             r = pos[1] // WIDTH
             if self.dragging:
-                if [r,c] in self.available_moves:
-                    if self.grid[r][c] is not None:
-                        p = self.grid[r][c]
-                        if p.colour == self.dragging_piece.colour:
+                if self.grid[r][c] is not None:
+                    p = self.grid[r][c]
+                    if p.colour == self.dragging_piece.colour:
+                        pos = self.dragging_piece.position
+                        self.grid[pos[0]][pos[1]] = self.dragging_piece
+                    else:
+                        #identify if the dragging win
+                        if False:
+                            pass
+                        else:
                             pos = self.dragging_piece.position
                             self.grid[pos[0]][pos[1]] = self.dragging_piece
-                        else:
-                            #identify if the dragging win
-                            if False:
-                                pass
-                            else:
-                                pos = self.dragging_piece.position
-                                self.grid[pos[0]][pos[1]] = self.dragging_piece
 
                     else:
                         self.dragging_piece.position = [r,c]
@@ -137,7 +135,7 @@ class Board():
 
 
     def render_available_moves(self):
-        if len(self.available_moves) > 0:
+        if not self.available_moves is None:
             moves = []
             for m in self.available_moves:
                 if self.grid[m[0]][m[1]] is None:

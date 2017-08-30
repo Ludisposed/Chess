@@ -4,7 +4,7 @@ class Pawn(Piece):
     def __init__(self, position, colour):
         self.direction = ()
         self.name = colour + '_pawn'
-        super(Pawn, self).__init__(position, colour, self.direction)
+        super(Pawn, self).__init__(position, colour, self.direction, self.name)
 
 
     # wierd movements
