@@ -14,21 +14,64 @@ class PlayGame(object):
         self.__dragging_piece = self.__pieces[position[0]][position[1]]
         self.__pieces[position[0]][position[1]] = None
         self.__available_moves = self.__dragging_piece.available_moves()
-        # you change change the self.__available_moves here, remove those points won't work
+
+        # Must be a better way?
+        if self.__dragging_piece.position in self.__available_moves:
+            # multiple move basterds so blocking was needed
+            m = []
+            blocked = False
+            for i in self.__available_moves:
+                if i == self.__dragging_piece.position:
+                    blocked = False                    
+                if not blocked:
+                    if self.__pieces[i[0]][i[1]] is None and i != self.__dragging_piece.position:
+                        m.append(i)
+                    elif self.__pieces[i[0]][i[1]].colour != self.__dragging_piece.colour:
+                        m.append(i)
+                        blocked = True
+                    elif self.__pieces[i[0]][i[1]].colour == self.__dragging_piece.colour:
+                        blocked = True
+            self.__available_moves = m
+            
+        else:
+            # Pawn
+            if self.__dragging_piece.name == self.__dragging_piece.colour + '_pawn':
+                m = []
+                for i in self.__available_moves:
+                    if i[1] != self.__dragging_piece.position[1]:
+                        if not self.__pieces[i[0]][i[1]] is None and self.__pieces[i[0]][i[1]].colour != self.__dragging_piece.colour:
+                            m.append(i)
+                    else:
+                        if self.__pieces[i[0]][i[1]] is None:
+                            m.append(i)
+                self.__available_moves = m
+
+            # Knight
+            if self.__dragging_piece.name == self.__dragging_piece.colour + '_knight':
+                self.__available_moves = [i for i in self.__available_moves if self.__pieces[i[0]][i[1]] is None or self.__pieces[i[0]][i[1]].colour != self.__dragging_piece.colour]
+
+            # King
+            # King is also different logic, cannot attack anything if cons he will be under check
+            else:
+                self.__available_moves = [i for i in self.__available_moves if self.__pieces[i[0]][i[1]] is None or self.__pieces[i[0]][i[1]].colour != self.__dragging_piece.colour]
+            
     def place_dragging_piece_in_position(self, position):
         valid_movement = True
         p = self.__pieces[position[0]][position[1]]
 
         if position in self.__available_moves and (p is None or self.__check_dragging_piece_win_piece_in_position(position)):
-
-           self.__dragging_piece.position = position
-           self.__pieces[position[0]][position[1]] = self.__dragging_piece
+            self.__dragging_piece.position = position
+            self.__pieces[position[0]][position[1]] = self.__dragging_piece
+            # Pawn check if moved
+            print self.__dragging_piece.name
+            if valid_movement and self.__dragging_piece.name == self.__dragging_piece.colour + '_pawn':
+                if not self.__dragging_piece.moved:
+                    self.__dragging_piece.if_moved()
         else:
             self.__place_drag_piece_back()
             valid_movement = False
 
         self.__stop_dragging()
-
         return valid_movement
 
     def __place_drag_piece_back(self):
