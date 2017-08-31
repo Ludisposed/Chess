@@ -10,17 +10,11 @@ class Piece(object):
         possible_moves = []
 
         for d in direction:
-            print 'Direction ', d
+            pos = self.position
+            i = 0
 
-            pos = self.position[:]
-            print 'Initial Position ', pos
-
-            # Issues overwriting possible_moves, out of bounds
-            while 0 <= pos[0] <= 7 and 0 <= pos[1] <= 7:
-                possible_moves.append(pos)
-                pos[0] += d[0]
-                pos[1] += d[1]
-                print 'Possible move ', pos
-
-        print possible_moves
+            while 0 <= pos[0] + d[0]*i <= 7 and 0 <= pos[1] + d[1]*i <= 7:
+                possible_moves.append([pos[0] + d[0]*i, pos[1] + d[1]*i])
+                i += 1
+                
         return possible_moves

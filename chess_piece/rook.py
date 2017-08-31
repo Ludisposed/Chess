@@ -8,4 +8,4 @@ class Rook(Piece):
 
     def available_moves(self):
         direction = ((0, 1), (1, 0), (-1, 0), (0, -1))
-        return super().available_moves(direction)
+        return super(Rook, self).available_moves(direction)

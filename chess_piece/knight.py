@@ -6,8 +6,8 @@ class Knight(Piece):
         self.name = colour + '_knight'
         self.direction = ()
 
-
-
     # wierd movements
     def available_moves(self):
-        pass
+        direction = ((1, 2), (1, -2), (-1, 2), (-1, -2), (2, 1), (2, -1), (-2, 1), (-2, -1))
+        pos = self.position
+        return [[pos[0] + d[0], pos[1] + d[1]] for d in direction]
