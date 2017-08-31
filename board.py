@@ -36,6 +36,7 @@ class Board():
                     self.dragging_place = pos
 
             elif event.type == pygame.MOUSEBUTTONUP:
+                #this function below return yes is a successful drag, then we will change player
                 if self.game.place_dragging_piece_in_position([r,c]):
                     #change player
                     pass
