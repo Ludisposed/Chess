@@ -6,42 +6,30 @@ WHITE = "white"
 class PlayGame(object):
     def __init__(self):
         self.__pieces = self.init_game_pieces()
-        self.__dragging = False
         self.__dragging_piece = None
         self.__playing = False
         self.__available_moves = []
 
     def start_drag_piece_in_position(self, position):
-        if self.__dragging == False and self.__pieces[position[0]][position[1]] is not None:
-            self.__dragging = True
-            self.__dragging_piece = self.__pieces[position[0]][position[1]]
-            self.__pieces[position[0]][position[1]] = None
-            self.__available_moves = []
-            moves = self.__dragging_piece.available_moves()
+        self.__dragging_piece = self.__pieces[position[0]][position[1]]
+        self.__pieces[position[0]][position[1]] = None
+        self.__available_moves = self.__dragging_piece.available_moves()
 
-            print moves
-            for m in moves:
-                if self.__pieces[m[0]][m[1]] is None:
-                    self.__available_moves.append(m)
-          
     def place_dragging_piece_in_position(self, position):
-        if position in self.__available_moves:
-            p = self.__pieces[position[0]][position[1]]
+        valid_movement = True
+        p = self.__pieces[position[0]][position[1]]
 
-            if p is None:
-                self.__pieces[position[0]][position[1]] = self.__dragging_piece
-            else:
-                if p.colour == self.__dragging_piece.colour:
-                    self.__place_drag_piece_back()
-                else:
-                    if self.__check_dragging_piece_win_piece_in_position(position):
-                        self.__pieces[position[0]][position[1]] = self.__dragging_piece
-                        # record score or something
-                    else:
-                        self.__place_drag_piece_back()
+        if position in self.__available_moves and (p is None or self.__check_dragging_piece_win_piece_in_position(position)):
+
+           self.__dragging_piece.position = position
+           self.__pieces[position[0]][position[1]] = self.__dragging_piece
         else:
             self.__place_drag_piece_back()
+            valid_movement = False
+
         self.__stop_dragging()
+
+        return valid_movement
 
     def __place_drag_piece_back(self):
         if self.__dragging_piece is not None:
@@ -49,11 +37,13 @@ class PlayGame(object):
             self.__pieces[pos[0]][pos[1]] = self.__dragging_piece
 
     def __stop_dragging(self):
-        self.__dragging = False
         self.__dragging_piece = None
         self.__available_moves = []
 
     def __check_dragging_piece_win_piece_in_position(self, position):
+        p = self.__pieces[position[0]][position[1]]
+        if p.colour == self.__dragging_piece.colour:
+            return False
         return True
 
     def dragging_piece(self):

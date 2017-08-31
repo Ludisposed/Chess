@@ -30,11 +30,15 @@ class Board():
             c = pos[0] // HEIGHT
             r = pos[1] // WIDTH
             if event.type == pygame.MOUSEBUTTONDOWN:
-                self.game.start_drag_piece_in_position([r,c])
-                self.dragging_place = pos
+                p = self.game.piece_in_position([r,c])
+                if p is not None and p.colour == self.current_player.colour:
+                    self.game.start_drag_piece_in_position([r,c])
+                    self.dragging_place = pos
 
             elif event.type == pygame.MOUSEBUTTONUP:
-                self.game.place_dragging_piece_in_position([r,c])
+                if self.game.place_dragging_piece_in_position([r,c]):
+                    #change player
+                    pass
                 self.dragging_place = [-1,-1]
 
             elif event.type == pygame.MOUSEMOTION:
@@ -60,7 +64,7 @@ class Board():
 
     def on_cleanup(self):
         pygame.quit()
-        
+
     def init_chess_board(self):
         for row in range(8):
             for column in range(8):
@@ -74,7 +78,7 @@ class Board():
         for m in self.game.available_moves():
             center = [m[1] * WIDTH + WIDTH // 2, m[0] * HEIGHT + HEIGHT // 2]
             BoardView.render_available_moves(self.board, center)
-            
+
     def render_dragging_piece(self):
         p = self.game.dragging_piece()
         if p is not None:

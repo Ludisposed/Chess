@@ -4,9 +4,8 @@ class Rook(Piece):
     def __init__(self, position, colour):
         super(Rook, self).__init__(position, colour)
         self.name = colour + '_rook'
-        self.direction = ((0, 1), (1, 0), (-1, 0), (0, -1))
 
 
     def available_moves(self):
-        direction = self.direction
+        direction = ((0, 1), (1, 0), (-1, 0), (0, -1))
         return super().available_moves(direction)
