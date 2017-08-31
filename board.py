@@ -24,7 +24,7 @@ class Board():
 
     def on_event(self,event):
         if event.type == pygame.QUIT:
-            self.running = False
+            self.game.finish()
         else:
             pos = pygame.mouse.get_pos()
             c = pos[0] // HEIGHT
