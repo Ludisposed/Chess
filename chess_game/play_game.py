@@ -14,7 +14,7 @@ class PlayGame(object):
         self.__dragging_piece = self.__pieces[position[0]][position[1]]
         self.__pieces[position[0]][position[1]] = None
         self.__available_moves = self.__dragging_piece.available_moves()
-
+        # you change change the self.__available_moves here, remove those points won't work
     def place_dragging_piece_in_position(self, position):
         valid_movement = True
         p = self.__pieces[position[0]][position[1]]
