@@ -24,8 +24,9 @@ class PlayGame(object):
                 if i == self.__dragging_piece.position:
                     blocked = False                    
                 if not blocked:
-                    if self.__pieces[i[0]][i[1]] is None and i != self.__dragging_piece.position:
-                        m.append(i)
+                    if self.__pieces[i[0]][i[1]] is None:
+                        if i != self.__dragging_piece.position:
+                            m.append(i)
                     elif self.__pieces[i[0]][i[1]].colour != self.__dragging_piece.colour:
                         m.append(i)
                         blocked = True
