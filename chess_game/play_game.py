@@ -14,8 +14,9 @@ class PlayGame(object):
         self.__dragging_piece = self.__pieces[position[0]][position[1]]
         self.__pieces[position[0]][position[1]] = None
         self.__available_moves = self.__dragging_piece.available_moves()
+        self.find_possible_moves()
 
-        # Must be a better way?
+    def find_possible_moves(self):
         if self.__dragging_piece.position in self.__available_moves:
             # multiple move basterds so blocking was needed
             m = []
@@ -62,8 +63,8 @@ class PlayGame(object):
         if position in self.__available_moves and (p is None or self.__check_dragging_piece_win_piece_in_position(position)):
             self.__dragging_piece.position = position
             self.__pieces[position[0]][position[1]] = self.__dragging_piece
+            
             # Pawn check if moved
-            print self.__dragging_piece.name
             if valid_movement and self.__dragging_piece.name == self.__dragging_piece.colour + '_pawn':
                 if not self.__dragging_piece.moved:
                     self.__dragging_piece.if_moved()
