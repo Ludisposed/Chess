@@ -8,8 +8,10 @@ from chess_game import BoardView
 WIDTH = 50
 HEIGHT = 50
 class Board():
-    def __init__(self, current_player):
+    def __init__(self, current_player, another_player):
         self.current_player = current_player
+        self.player_a = current_player
+        self.player_b = another_player
         self.game = PlayGame()
         self.game.start()
         self.lastPosition = [-1,-1]
@@ -36,10 +38,9 @@ class Board():
                     self.dragging_place = pos
 
             elif event.type == pygame.MOUSEBUTTONUP:
-                #this function below return yes is a successful drag, then we will change player
+                
                 if self.game.place_dragging_piece_in_position([r,c]):
-                    #change player
-                    pass
+                    self.current_player = self.player_a if self.current_player == self.player_b else self.player_b
                 self.dragging_place = [-1,-1]
 
             elif event.type == pygame.MOUSEMOTION:
@@ -49,8 +50,8 @@ class Board():
 
     def on_render(self):
         self.render_chess_piece()
-        self.render_dragging_piece()
         self.render_available_moves()
+        self.render_dragging_piece()
 
         self.render_last_position()
         pygame.display.update()
