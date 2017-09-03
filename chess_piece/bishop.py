@@ -7,6 +7,6 @@ class Bishop(Piece):
 
 
 
-    def available_moves(self):
+    def available_moves(self, board):
         direction = ((-1, -1), (1, 1), (-1, 1), (1, -1))
-        return super(Bishop, self).available_moves(direction)
+        return super(Bishop, self).available_moves(direction, board)

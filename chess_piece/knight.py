@@ -7,8 +7,20 @@ class Knight(Piece):
         self.direction = ()
 
     # wierd movements
-    def available_moves(self):
+    def available_moves(self, board):
         direction = ((1, 2), (1, -2), (-1, 2), (-1, -2), (2, 1), (2, -1), (-2, 1), (-2, -1))
-        pos = self.position
-        available_moves = [[pos[0] + d[0], pos[1] + d[1]] for d in direction]
-        return [i for i in available_moves if 0 <= i[0] <=7 and 0 <= i[1] <= 7]
+        available_moves = []
+        for d in direction:
+            pos = self.position
+            r, c = [[pos[0] + d[0], pos[1] + d[1]]
+
+            # inrange
+            if 0 <= r and r <= 7 and 0 <= c and c <= 7:
+                # empty
+                if board[r][c] is None:
+                    available_moves.append([r, c])
+                # or can attack
+                if board[r][c].colour != self.colour:
+                    available_moves.append([r, c])
+                
+        return available_moves

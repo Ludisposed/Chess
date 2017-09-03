@@ -13,48 +13,7 @@ class PlayGame(object):
     def start_drag_piece_in_position(self, position):
         self.__dragging_piece = self.__pieces[position[0]][position[1]]
         self.__pieces[position[0]][position[1]] = None
-        self.__available_moves = self.__dragging_piece.available_moves()
-        self.find_possible_moves()
-
-    def find_possible_moves(self):
-        if self.__dragging_piece.position in self.__available_moves:
-            # multiple move basterds so blocking was needed
-            m = []
-            blocked = False
-            for i in self.__available_moves:
-                if i == self.__dragging_piece.position:
-                    blocked = False
-                if not blocked:
-                    if self.__pieces[i[0]][i[1]] is None:
-                        m.append(i)
-                    else:
-                        blocked = True
-                        if self.__pieces[i[0]][i[1]].colour != self.__dragging_piece.colour:
-                            m.append(i)
-
-            self.__available_moves = m
-
-        else:
-            # Pawn
-            if 'pawn' in self.__dragging_piece.name:
-                m = []
-                for i in self.__available_moves:
-                    if i[1] != self.__dragging_piece.position[1]:
-                        if not self.__pieces[i[0]][i[1]] is None and self.__pieces[i[0]][i[1]].colour != self.__dragging_piece.colour:
-                            m.append(i)
-                    else:
-                        if self.__pieces[i[0]][i[1]] is None:
-                            m.append(i)
-                self.__available_moves = m
-
-            # Knight
-            if '_knight' in self.__dragging_piece.name:
-                self.__available_moves = [i for i in self.__available_moves if self.__pieces[i[0]][i[1]] is None or self.__pieces[i[0]][i[1]].colour != self.__dragging_piece.colour]
-
-            # King
-            # King is also different logic, cannot attack anything if cons he will be under check
-            else:
-                self.__available_moves = [i for i in self.__available_moves if self.__pieces[i[0]][i[1]] is None or self.__pieces[i[0]][i[1]].colour != self.__dragging_piece.colour]
+        self.__available_moves = self.__dragging_piece.available_moves(self.__pieces)
 
     def place_dragging_piece_in_position(self, position):
         valid_movement = True

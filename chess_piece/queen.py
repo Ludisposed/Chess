@@ -7,6 +7,6 @@ class Queen(Piece):
 
 
 
-    def available_moves(self):
+    def available_moves(self, board):
         direction = ((0, 1), (1, 0), (-1, 0), (0, -1), (-1, -1), (1, 1), (-1, 1), (1, -1))
-        return super(Queen, self).available_moves(direction)
+        return super(Queen, self).available_moves(direction, board)

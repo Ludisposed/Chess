@@ -6,6 +6,6 @@ class Rook(Piece):
         self.name = colour + '_rook'
 
 
-    def available_moves(self):
+    def available_moves(self, board):
         direction = ((0, 1), (1, 0), (-1, 0), (0, -1))
-        return super(Rook, self).available_moves(direction)
+        return super(Rook, self).available_moves(direction, board)
