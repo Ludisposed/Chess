@@ -1,5 +1,8 @@
 # Chess
 
+This did not make it as the Codereview Community Challenge, but I still like this more than the other one.
+Might even finish this someday :)
+
 - [ ] Implement logic to determine where/how pieces can move/attack
 - [ ] Determine which squares are threatened by what pieces
 - [ ] Implement support for some Chess notation (there are a bunch to choose from)
