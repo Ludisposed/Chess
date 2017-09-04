@@ -4,6 +4,8 @@ class King(Piece):
     def __init__(self, position, colour):
         super(King, self).__init__(position, colour)
         self.name = colour + '_king'
+        self.castle_long = False
+        self.castle_short = False
 
     # TODO
     # Wierd movement with Castling
@@ -22,4 +24,13 @@ class King(Piece):
                     # or can attack
                     if board[r][c].colour != self.colour:
                         available_moves.append([r, c])
+
+        if self.castle_long:
+            # Add castle as available move
+            pass
+
+        if self.castle_short:
+            # Add castle as available move
+            pass
+        
         return available_moves

@@ -23,7 +23,8 @@ class Pawn(Piece):
             pos = self.position
             r, c = [pos[0] + d[0], pos[1] + d[1]]
 
-            print r, c, pos
+            # Calculate en passant
+            # TODO
 
             # Capture
             if c != pos[1]:
@@ -38,5 +39,4 @@ class Pawn(Piece):
                     else:
                         skip = True
 
-        print available_moves
         return available_moves
