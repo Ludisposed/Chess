@@ -23,20 +23,20 @@ class Pawn(Piece):
             pos = self.position
             r, c = [pos[0] + d[0], pos[1] + d[1]]
 
+            print r, c, pos
+
             # Capture
             if c != pos[1]:
-                if not board[r][c] is None and self.colour != board[r][c].colour:
-                    available_moves.append([r, c])
+                if 0 <= c <= 7:
+                    if not board[r][c] is None and self.colour != board[r][c].colour:
+                        available_moves.append([r, c])
             # Move
             else:
                 if not skip:
-                    if not board[r][c] is None:
+                    if board[r][c] is None:
                         available_moves.append([r, c])
                     else:
                         skip = True
 
-        if last_moved_piece:
-            pass
-            # Add en-passant                
-                
+        print available_moves
         return available_moves

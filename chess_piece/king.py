@@ -18,7 +18,8 @@ class King(Piece):
                 # empty
                 if board[r][c] is None:
                     available_moves.append([r, c])
-                # or can attack
-                if board[r][c].colour != self.colour:
-                    available_moves.append([r, c])
+                else:
+                    # or can attack
+                    if board[r][c].colour != self.colour:
+                        available_moves.append([r, c])
         return available_moves
