@@ -12,7 +12,7 @@ class Knight(Piece):
         available_moves = []
         for d in direction:
             pos = self.position
-            r, c = [[pos[0] + d[0], pos[1] + d[1]]
+            r, c = [pos[0] + d[0], pos[1] + d[1]]
 
             # inrange
             if 0 <= r and r <= 7 and 0 <= c and c <= 7:

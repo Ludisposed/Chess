@@ -24,7 +24,7 @@ class Pawn(Piece):
             r, c = [pos[0] + d[0], pos[1] + d[1]]
 
             # Capture
-            if c !- pos[1]:
+            if c != pos[1]:
                 if not board[r][c] is None and self.colour != board[r][c].colour:
                     available_moves.append([r, c])
             # Move
