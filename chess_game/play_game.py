@@ -4,11 +4,12 @@ BLACK = "black"
 WHITE = "white"
 
 class PlayGame(object):
-    def __init__(self):
+    def __init__(self, movement_delegate):
         self.__pieces = self.init_game_pieces()
         self.__dragging_piece = None
         self.__playing = False
         self.__available_moves = []
+        self.__movement_delegate = movement_delegate
 
     def start_drag_piece_in_position(self, position):
         self.__dragging_piece = self.__pieces[position[0]][position[1]]
@@ -32,7 +33,14 @@ class PlayGame(object):
             valid_movement = False
 
         self.__stop_dragging()
+
+        if valid_movement:
+            self.__movement_delegate_handler(position)
+
         return valid_movement
+    def __movement_delegate_handler(self, movement):
+        func = getattr(self.__movement_delegate, 'add_movement_record')
+        func(movement)
 
     def __place_drag_piece_back(self):
         if self.__dragging_piece is not None:
