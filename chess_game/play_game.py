@@ -28,9 +28,9 @@ class PlayGame(object):
                     self.__dragging_piece.if_moved()
             elif valid_movement and self.__dragging_piece.name == self.__dragging_piece.colour + '_king':
                 if position == self.__dragging_piece.castle_long_position:
-                    self.castle_rook(long = True, self.__dragging_piece.colour)
+                    self.castle_rook(long_castle = True, colour=self.__dragging_piece.colour)
                 elif position == self.__dragging_piece.castle_short_position:
-                    self.castle_rook(long = False, self.__dragging_piece.colour)
+                    self.castle_rook(long_castle = False, colour=self.__dragging_piece.colour)
 
             self.__dragging_piece.position = position
             self.__pieces[position[0]][position[1]] = self.__dragging_piece
