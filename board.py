@@ -118,4 +118,5 @@ class Board():
     def add_movement_record(self, movement):
         self.lastPosition = movement
         self.movements.append([self.current_player, movement])
+         
 

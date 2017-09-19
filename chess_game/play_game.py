@@ -21,13 +21,19 @@ class PlayGame(object):
         p = self.__pieces[position[0]][position[1]]
 
         if position in self.__available_moves and (p is None or self.__check_dragging_piece_win_piece_in_position(position)):
-            self.__dragging_piece.position = position
-            self.__pieces[position[0]][position[1]] = self.__dragging_piece
             
             # Pawn check if moved
             if valid_movement and self.__dragging_piece.name == self.__dragging_piece.colour + '_pawn':
                 if not self.__dragging_piece.moved:
                     self.__dragging_piece.if_moved()
+            elif valid_movement and self.__dragging_piece.name == self.__dragging_piece.colour + '_king':
+                if position == self.__dragging_piece.castle_long_position:
+                    self.castle_rook(long = True, self.__dragging_piece.colour)
+                elif position == self.__dragging_piece.castle_short_position:
+                    self.castle_rook(long = False, self.__dragging_piece.colour)
+
+            self.__dragging_piece.position = position
+            self.__pieces[position[0]][position[1]] = self.__dragging_piece
         else:
             self.__place_drag_piece_back()
             valid_movement = False
@@ -38,9 +44,22 @@ class PlayGame(object):
             self.__movement_delegate_handler(position)
 
         return valid_movement
+        
+    def castle_rook(self, long_castle, colour):
+        positions = [[0,0],[0,7],[7,0],[7,7]]
+        targets = [[0,3],[0,5],[7,3],[7,5]]
+        index = (0 if colour == BLACK else 2) + (0 if long_castle else 1)
+
+        position = positions[index]
+        target = targets[index]
+
+        self.__pieces[target[0]][target[1]] = self.__pieces[position[0]][position[1]]
+        self.__pieces[position[0]][position[1]] = None
+
     def __movement_delegate_handler(self, movement):
         func = getattr(self.__movement_delegate, 'add_movement_record')
         func(movement)
+    
 
     def __place_drag_piece_back(self):
         if self.__dragging_piece is not None:
