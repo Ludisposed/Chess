@@ -2,7 +2,13 @@
 
 This did not make it as the Codereview Community Challenge, but I still like this more than the other one.
 Might even finish this someday :)
+ 1. Sprint_1
+  - [ ] Check/Checkmate
+  - [ ] Pawn-en passant
+  - [ ] Record moves like this: Kne3xd5 for capture 0-0 for castke short 0-0-0 for castle long
+  - [ ] Refractor
 
+# Program
 - [ ] Implement logic to determine where/how pieces can move/attack
 - [ ] Determine which squares are threatened by what pieces
 - [ ] Implement support for some Chess notation (there are a bunch to choose from)
