@@ -14,6 +14,7 @@ class PlayGame(object):
     def start_drag_piece_in_position(self, position):
         self.__dragging_piece = self.__pieces[position[0]][position[1]]
         self.__pieces[position[0]][position[1]] = None
+        self.check_castle(self.__dragging_piece)
         self.__available_moves = self.__dragging_piece.available_moves(self.__pieces)
 
     def place_dragging_piece_in_position(self, position):
@@ -27,12 +28,14 @@ class PlayGame(object):
                 if not self.__dragging_piece.moved:
                     self.__dragging_piece.if_moved()
             elif valid_movement and self.__dragging_piece.name == self.__dragging_piece.colour + '_king':
+                
                 if position == self.__dragging_piece.castle_long_position:
                     self.castle_rook(long_castle = True, colour=self.__dragging_piece.colour)
                 elif position == self.__dragging_piece.castle_short_position:
                     self.castle_rook(long_castle = False, colour=self.__dragging_piece.colour)
 
             self.__dragging_piece.position = position
+            self.__dragging_piece.moved = True
             self.__pieces[position[0]][position[1]] = self.__dragging_piece
         else:
             self.__place_drag_piece_back()
@@ -44,6 +47,28 @@ class PlayGame(object):
             self.__movement_delegate_handler(position)
 
         return valid_movement
+    def check_under_check(self, king):
+        return False
+    def check_castle(self, king):
+
+        if king.name == king.colour + '_king' and not self.check_under_check(king) and not king.moved:
+            pos = king.position
+
+            def check_empty_between(rook_pos):
+                if not self.__pieces[pos[0]][rook_pos].moved:
+                    empty = True
+                    r = [1,2,3] if rook_pos == 0 else [5,6]
+                    for i in r:
+                        if self.__pieces[pos[0]][i] != None:
+                            empty = False
+                            break
+                    return empty
+                else:
+                    return False
+                
+            king.castle_long = True if check_empty_between(0) else False
+            king.castle_short = True if check_empty_between(7) else False
+
         
     def castle_rook(self, long_castle, colour):
         positions = [[0,0],[0,7],[7,0],[7,7]]
@@ -53,6 +78,7 @@ class PlayGame(object):
         position = positions[index]
         target = targets[index]
 
+        self.__pieces[position[0]][position[1]].moved = True
         self.__pieces[target[0]][target[1]] = self.__pieces[position[0]][position[1]]
         self.__pieces[position[0]][position[1]] = None
 

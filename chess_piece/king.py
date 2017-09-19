@@ -28,7 +28,7 @@ class King(Piece):
                     # or can attack
                     if board[r][c].colour != self.colour:
                         available_moves.append([r, c])
-
+        
         if self.castle_long:
             self.castle_long_position = [self.position[0],self.position[1] - 2]
             available_moves.append(self.castle_long_position)

@@ -4,6 +4,7 @@ class Piece(object):
         self.name = ""
         self.position = position
         self.colour = colour
+        self.moved = False
 
 
     def available_moves(self, direction, board):

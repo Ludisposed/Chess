@@ -3,7 +3,6 @@ from chess_piece.piece import Piece
 class Pawn(Piece):
     def __init__(self, position, colour):
         super(Pawn, self).__init__(position, colour)
-        self.moved = False
         self.direction = ((1, 0), (2, 0), (1, -1), (1, 1)) if colour == 'black' else ((-1, 0), (-2, 0), (-1, -1), (-1, 1))
         self.name = colour + '_pawn'
 
