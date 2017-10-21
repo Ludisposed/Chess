@@ -8,12 +8,25 @@ from chess_game import BoardView
 WIDTH = 50
 HEIGHT = 50
 PADDING = 20
+
+BLACK = "black"
+WHITE = "white"
+
 class Board():
     def __init__(self, current_player, another_player):
         self.current_player = current_player
         self.player_a = current_player
         self.player_b = another_player
-        self.game = PlayGame(self)
+
+        self.game = PlayGame(self,custom = True)
+        pieces = [Queen([0,1],BLACK),
+                  King([2,4],BLACK),
+                  Bishop([6,5],BLACK),
+                  King([6,4],WHITE),
+                  Bishop([2,5],WHITE),
+                  Knight([7,6],WHITE)]
+        self.game.add_pieces(pieces)
+
         self.game.start()
         self.lastPosition = [-1,-1]
         self.dragging_place = [-1,-1]

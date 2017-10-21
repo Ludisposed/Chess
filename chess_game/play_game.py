@@ -4,12 +4,23 @@ BLACK = "black"
 WHITE = "white"
 
 class PlayGame(object):
-    def __init__(self, movement_delegate):
-        self.__pieces = self.init_game_pieces()
+    def __init__(self, movement_delegate, custom = False):
+        if not custom:
+            self.__pieces = self.init_game_pieces()
+        else:
+            self.__pieces = [[None for _ in range(8)] for _ in range(8)]
+        self.custom = custom
         self.__dragging_piece = None
         self.__playing = False
         self.__available_moves = []
         self.__movement_delegate = movement_delegate
+
+    def add_pieces(self,pieces):
+        if self.custom:
+            for piece in pieces:
+                pos = piece.position
+                if self.__pieces[pos[0]][pos[1]] == None:
+                    self.__pieces[pos[0]][pos[1]] = piece
 
     def start_drag_piece_in_position(self, position):
         self.__dragging_piece = self.__pieces[position[0]][position[1]]
